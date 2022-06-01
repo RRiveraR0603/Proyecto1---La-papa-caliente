@@ -4,7 +4,6 @@
  */
 package com.mycompany.la_papa_caliente_richard;
 import java.util.Scanner;
-import static javax.security.auth.callback.ConfirmationCallback.NO;
 /**
  *
  * @author RICHARD RIVERA
@@ -20,54 +19,58 @@ public class Lista_Jugadores {
         ultimo = null;
     }
     
-    public void Insertajugadores(String x){
-        Nodo NJugar = new Nodo();
-           NJugar.NombreJ = x;
+    public void Insertarjugadores(int x){
+        Nodo aux = new Nodo();
+           aux.dato = x;
            
+          
           if(primero == null){
-              primero = NJugar;
-              ultimo = NJugar;
-              primero.sgte = primero;
-              ultimo.ant = ultimo;
+              primero = aux;
+              primero.siguiente = primero;
+              aux.anterior = ultimo;
+              ultimo = aux;
           }else {
-              ultimo.sgte = NJugar;
-              NJugar.sgte = primero;
-              NJugar.ant = ultimo;
-              ultimo = NJugar; 
-              primero.ant = ultimo;
+              ultimo.siguiente = aux;
+              aux.siguiente = primero;
+              aux.anterior = ultimo;
+              ultimo = aux; 
+              primero.anterior = ultimo;
             }
     }
     
-    public void Modificarjugadores(String x){
+    public void Modificarjugadores(int x){
         Nodo NuevoJ = new Nodo();
         NuevoJ = primero;
         do{
-            if(NuevoJ.NombreJ == x){
+            if(NuevoJ.dato == x){
                 System.out.print("Ingrese el nuevo nombre o mote del jugador: ");
-                NuevoJ.NombreJ = modificar.nextLine();
+                NuevoJ.dato = modificar.nextInt();
             }  
-            NuevoJ = NuevoJ.sgte; 
+            NuevoJ = NuevoJ.siguiente; 
         }while(NuevoJ != primero);      
     }
     
-    public void EliminarJugadores(String x){
-        Nodo Jugador = new Nodo();
-        Nodo atras = new Nodo();
-        Jugador = primero;
-        atras = ultimo;
-        
-        do{
-            if(Jugador.NombreJ == x){
-                primero = primero.sgte;
-                ultimo.sgte = primero;
-            }else if(Jugador == ultimo){
-                atras.sgte = ultimo.sgte;
-                ultimo = atras;
-            }else {
-                atras.sgte = Jugador.sgte;
+    public void EliminarJugadores(int x){
+        if (primero == null){
+            System.out.println("Lista Vacia");
+        }else {
+            Nodo aux = primero;
+            Nodo aux2 = ultimo;
+            while(aux.siguiente != primero && aux.dato != x){
+                aux2 = aux;
+                aux = aux.siguiente;
             }
-            atras.sgte = Jugador.sgte;   
-        }while(Jugador != primero);   
+            if(aux.dato == x){
+                if(aux.siguiente == primero && aux.anterior == primero){
+                    primero = null;
+                }else{
+                    aux2.siguiente = aux.siguiente;
+                }
+                System.out.println("Elemento "+ x +" Eliminado");
+            }else {
+                System.out.println("Elemento no encontado");
+            }
+        }
     }
     
     
@@ -77,8 +80,8 @@ public class Lista_Jugadores {
         
         if(primero != null){
           do {
-              System.out.println(aux.NombreJ);
-              aux = aux.sgte;
+              System.out.println(aux.dato);
+              aux = aux.siguiente;
           } while(aux != primero);
         }else {
             System.out.println("La lista de jugadores esta vacia");
@@ -91,12 +94,21 @@ public class Lista_Jugadores {
         
         if(ultimo != null){
             do{
-             System.out.println(aux.NombreJ);
-             aux = aux.ant;
+             System.out.println(aux.dato);
+             aux = aux.anterior;
             }while(aux != ultimo);      
         }else {
             System.out.println("La lista de jugadores esta vacia");
         }
+    }
+    
+    Nodo recorrer (int n, boolean horario){
+        
+        Nodo aux = ultimo;
+        for(int i = 1; i < n; i++){
+            aux = horario ? aux.siguiente: aux.anterior;
+        } 
+        return aux;
     }
 }
 
