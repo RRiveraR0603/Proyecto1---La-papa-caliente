@@ -9,7 +9,7 @@ package com.mycompany.la_papa_caliente_richard;
  * @author RICHARD RIVERA
  */
 public class Nodo {
-    int dato;
+    String dato;
     Nodo siguiente;
     Nodo anterior;
 }

@@ -4,6 +4,7 @@
  */
 
 package com.mycompany.la_papa_caliente_richard;
+import java.io.*;
 import java.util.Scanner;
 /**
  *
@@ -13,44 +14,72 @@ import java.util.Scanner;
 public class La_Papa_Caliente_Richard {
 
     public static void main(String[] args) {
-
-
-        Lista_Jugadores l = new Lista_Jugadores();
-        Scanner in =new Scanner(System.in);
-        String Nombre, Nombre2 = null;
-        int op = 0, op2 = 0, jugar = 0;
-        boolean horario = false;
         
-       System.out.println("LA PAPA CALIENTE");
+        Lista_Jugadores l = new Lista_Jugadores();
+        Scanner inicio = new Scanner (System.in);
+        Scanner horario = new Scanner (System.in);
+        int respuesta, horario2 = 0;
+        String jugador = null;
+
+
+        System.out.println("Bienvenido a la papa caliente.");
+        System.out.println("");
+        
+        l.Escribir();
+        System.out.println("Los jugadores seran:");
+        l.leer();
        
-       System.out.println("Los Jugadores seran: ");
-       l.Insertarjugadores(1);
-       l.Insertarjugadores(2);
-       l.Insertarjugadores(3);
-       l.Insertarjugadores(4);
-       l.Insertarjugadores(5);
-       l.Insertarjugadores(7);
+         
+        l.Insertarjugadores("Juan");
+        l.Insertarjugadores("Pedro");
+        l.Insertarjugadores("Mauricio");
+        l.Insertarjugadores("Maria");
+        l.Insertarjugadores("Jose");
+        
+        System.out.println("");
+        
+        l.EliminarJugadores("Juan");
+        
        
-       l.MostrarJugadores();
-       System.out.println("");
-       l.DesplegarJugaUP();
+        l.MostrarJugadores();
+         
+        System.out.println("1. Iniciar el juego.");
+        System.out.println("2. Salir de juego.");
+        
+        respuesta = inicio.nextInt();
        
-       l.EliminarJugadores(7);
-       
-       l.MostrarJugadores();
-       System.out.println("");
-       l.DesplegarJugaUP();
-       
-       System.out.println("Quiere jugar en zona horaria: ");
-       horario = in.nextBoolean();
-       l.recorrer(10, true);
-       
-       if(horario == false){
-           l.DesplegarJugaUP();
-       }else{
-           l.MostrarJugadores();
+        switch(respuesta){
+             case 1:
+                 System.out.println("Que comience el juego!");
+                 System.out.println("");
+                 System.out.println("1.jugar de manera horaria");
+                 System.out.println("2.jugar de manera anti-horario");
+                 horario2 = inicio.nextInt();
+                 switch(horario2){
+                   case 1:
+                       l.recorrer(horario2, "Juan", true);
+                       l.MostrarJugadores();
+                       break;
+                   case 2:
+                       System.out.println("el recorrer sera false antihorario");
+                       
+                       break;       
+                    } 
+                 break;
+             case 2:
+                 System.out.println("Fin del juego");
+                 break;
+             default:
+                 System.out.println("Se ha producido un error. Esa eleccion no se encuentra disponible.");
+                 break;
+               
        }
+       System.out.println("");
+       System.out.println("Juego finalizado.");
+       System.out.println("Gracias por jugar, hasta la proxima.");
+              
+        
        
-    }    
+    }         
 }
        
