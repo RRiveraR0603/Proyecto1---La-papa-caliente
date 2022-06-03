@@ -5,9 +5,14 @@
 package com.mycompany.la_papa_caliente_richard;
 import java.util.Scanner;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import java.util.List;
+import java.util.StringTokenizer;
 /**
  *
  * @author RICHARD RIVERA
@@ -42,7 +47,7 @@ public class Lista_Jugadores {
             }
     }
     
-    public void Modificarjugadores(String x){
+    void Modificarjugadores(String x){
         Nodo NuevoJ = new Nodo();
         NuevoJ = primero;
         do{
@@ -54,30 +59,44 @@ public class Lista_Jugadores {
         }while(NuevoJ != primero);      
     }
     
-    public boolean EliminarJugadores(String x){
+    Nodo recorrer (int n, boolean horario){
         
-            boolean fijado = false;
-            Nodo aux = ultimo;
-            while(aux.siguiente != ultimo && !fijado){
-                fijado = (aux.siguiente.dato == x);
-                if(!fijado){
-                    aux = aux.siguiente;
-                }
+        Nodo aux = ultimo;
+        n = (int) (Math.random() *2);
+        for(int i = 1; i < n; i++){
+            aux = horario ? aux.siguiente: aux.anterior;  
+            
+        } return aux;  
+    }
+    
+    @SuppressWarnings("empty-statement")
+    public void EliminarJugadores(String n){
+        
+        if (primero == null){
+            System.out.println("Lista vacia");
+        }else{
+            Nodo aux = primero;
+            Nodo aux2 = ultimo; 
+            
+            while(aux.siguiente != ultimo && aux.dato != n){
+                aux2 = aux;
+                aux = aux.siguiente;
             }
-            fijado = (aux.siguiente.dato == x);
-            if(fijado){
-                Nodo aux2 = aux.siguiente;
-                if(ultimo == ultimo.siguiente){
-                    ultimo = null;
-                }else {
-                    if(aux2 == ultimo){
-                        ultimo = aux;   
-                    }
-                    aux.siguiente = aux2.siguiente;
+            if (aux.dato == n){
+                if (aux.siguiente == primero && aux == ultimo){
+                    primero = null;   
+                }else if(aux == primero){
+                       primero = primero.siguiente;
+                       ultimo.siguiente = ultimo;
+                       primero.anterior = ultimo;        
+                } else {
+                       aux2.siguiente = aux.siguiente;
                 }
-                aux2 = null;
-            }
-            return fijado = true;
+                System.out.println("El jugador " + n + " Ha sido eliminado");
+            }else{
+                System.out.println("El jugador " + n + " Ha sido eliminado");    
+            }            
+        }
     }          
     
     
@@ -109,35 +128,6 @@ public class Lista_Jugadores {
         }
     }
     
-    Nodo recorrer (int n, String x, boolean horario){
-        
-        Nodo eliminado = ultimo;
-        n = (int) (Math.random() *2);
-        for(int i = 1; i < n; i++){
-            eliminado = horario ? eliminado.siguiente: eliminado.anterior;
-        
-          if (primero == null){
-              System.out.println("Lista Vacia");
-          }else {
-              Nodo aux = primero;
-              while(aux.siguiente != primero && aux.dato != x){
-                  eliminado = aux;
-                  aux = aux.siguiente;
-              }
-              if(aux.dato == x){
-                  if(aux.siguiente == primero && aux.anterior == primero){
-                      primero = null;
-                  }else{
-                      eliminado.siguiente = aux.siguiente;
-                  }
-                  System.out.println("Elemento "+ x +" Eliminado");
-              }else {
-                  System.out.println("Elemento no encontado");
-                }
-            }
-        }
-        return eliminado;
-    }
     
     public void Escribir(){
         
@@ -147,14 +137,12 @@ public class Lista_Jugadores {
             archivoJ = new File("jugadores.in");
             
             if(!archivoJ.exists()){
-                System.out.println("Arichivo creado");
             try {
                 archivoJ.createNewFile();
             } catch (IOException ex) {
                 Logger.getLogger(Lista_Jugadores.class.getName()).log(Level.SEVERE, null, ex);
             }
             }else{
-                System.out.println("Arichivo ya existe");
                 try {
                     escribir = new PrintWriter(archivoJ,"utf-8");
                     escribir.println("Juan");
@@ -175,7 +163,7 @@ public class Lista_Jugadores {
         }     
     }
     
-    public void leer() {
+    public void leer(Lista_Jugadores lis) {
         
         
             File ArchivoJ;
@@ -192,7 +180,9 @@ public class Lista_Jugadores {
                 try {
                     cadena = almacenamiento.readLine();
                     if(cadena != null){
-                        System.out.println(cadena);
+                        String[] datos = cadena.split("--");
+                        String nombre = datos[0];
+                        System.out.println(nombre);
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(Lista_Jugadores.class.getName()).log(Level.SEVERE, null, ex);
@@ -210,6 +200,12 @@ public class Lista_Jugadores {
         }
         
     }
+    
+
+
+    
+    
+
 }
 
 
